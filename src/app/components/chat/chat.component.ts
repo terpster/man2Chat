@@ -40,8 +40,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.getChatrooms();
       }
     });
-
-    this.getChatrooms();
   }
 
   ngOnDestroy(){
