@@ -10,6 +10,13 @@ const passport = require('passport');
 const config = require('./config/database');
 const mongoose = require('mongoose');
 
+/** Create HTTP server. **/
+const server = http.createServer(app);
+const io = require('socket.io').listen(server);
+
+// Export io to be used in router
+module.exports = io;
+
 app.engine('ejs', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
@@ -26,7 +33,6 @@ mongoose.connection.on('error', (err) =>{
   console.log("Database error: " + err);
 });
 
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
@@ -40,6 +46,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./config/passport')(passport);
+
+/** Get port from environment and store in Express. */
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
 // Anything that accesses the /users will be using the /routes/users file
 const users = require('./server/routes/users');
@@ -66,21 +76,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
-/**
- * Get port from environment and store in Express.
- */
-
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-/** Create HTTP server. **/
-const server = http.createServer(app);
-const io = require('socket.io').listen(server);
-
-module.exports = io;
-
-
 /** Listen on provided port, on all network interfaces. **/
 server.listen(port);
 server.on('error', onError);
@@ -88,7 +83,7 @@ io.sockets.on('connection', function (socket) {
   chat.addClient(socket);
 
   let currentRoom = '';
-//hehe
+
   socket.on('connect to chat', () => {
     chat.notifyClientsAboutRooms();
   });

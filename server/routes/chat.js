@@ -56,7 +56,7 @@ router.notifyclients = function (currentRoom) {
         if (err)
             return console.error(err);
 
-        // io.in(currentRoom).emit('refresh messages', messages);
+        io.in(currentRoom).emit('refresh messages', messages);
     });
 };
 router.notifyClientsAboutRooms = function (client) {
