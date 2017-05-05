@@ -37,8 +37,8 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.changeRoom(this.currentRoom);
       } else{
         this.connectToChat();
-        this.getChatrooms();
       }
+      this.getChatrooms();
     });
   }
 
