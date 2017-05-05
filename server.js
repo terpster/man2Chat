@@ -106,18 +106,22 @@ io.sockets.on('connection', function (socket) {
         onlineUsers.push(nickname);
       }
 
-      socket.emit('get online users', onlineUsers);
-    });
+      io.in(currentRoom).emit('get online users', onlineUsers);
+      console.log('users online in room %s: %s', currentRoom, onlineUsers.length)
 
+    });
   });
 
   socket.on('change room', function(data){
-    socket.leave(currentRoom, null);
+
+    socket.leave(currentRoom);
     currentRoom = data;
-    socket.join(data);
+    socket.join(currentRoom);
+
   });
 
   socket.on('disconnect', function(){
+    console.log('Disconnecting client....');
     chat.disconnectClient(socket)
   });
 });
