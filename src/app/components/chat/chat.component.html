@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="col-md-2">
+<div class="col-md-2 left-sidebar">
+  <div class="online-users">
     <h4>Online Users</h4>
 
     <ul class="online-users">
@@ -7,10 +7,11 @@
         {{onlineUser}}
       </li>
     </ul>
-
   </div>
-  <div class="col-md-8">
-    <h4>{{title}}</h4>
+</div>
+
+  <div class="chat col-md-8">
+    <h3>{{title}}</h3>
     <ul>
       <li *ngFor="let message of chatMessages">
         {{message.name}} : {{message.message}}
@@ -28,26 +29,23 @@
     </div>
   </div>
 
-  <div class="col-md-2">
-    <h4>Chatrooms</h4>
-    <ul class="chatrooms">
-      <li *ngFor="let chatroom of chatrooms">
-        <a [routerLink]="['/chat', chatroom.name]" routerLinkActive="active" (click)="changeRoom(chatroom.name)">{{chatroom.name}}</a>
-      </li>
-    </ul>
-    <hr>
 
-    <form (submit)="createRoom()">
-      <div class="form-group">
-        <label>Create Room</label>
-        <input type="text" [(ngModel)]="room" name="room" class="form-control">
-      </div>
-      <input type="submit" class="btn btn-primary" value="Create Room">
-    </form>
-  </div>
+<div class="right-sidebar col-md-2">
+  <h4>Chatrooms</h4>
+  <ul class="chatrooms">
+    <li *ngFor="let chatroom of chatrooms">
+      <a [routerLink]="['/chat', chatroom.name]" routerLinkActive="active" (click)="changeRoom(chatroom.name)">{{chatroom.name}}</a>
+    </li>
+  </ul>
+  <hr>
+
+  <form (submit)="createRoom()">
+    <div class="form-group">
+      <label>Create Room</label>
+      <input type="text" [(ngModel)]="room" name="room" class="form-control">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Create Room">
+  </form>
 </div>
-
-
-
 
 

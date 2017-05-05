@@ -60,6 +60,10 @@ export class ChatService {
     this.socket.emit('connect to chat', username);
   }
 
+  disconnectFromChat(){
+    this.socket.emit('disconnect');
+  }
+
   getChatrooms(): Observable<Chatroom[]>{
     const chatroomsList = new Observable(observer => {
       this.socket.on('refresh chatrooms', (data) => {

@@ -17,16 +17,16 @@ import { AuthService } from './services/auth.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 import { ChatComponent } from './components/chat/chat.component';
-import { ChatService } from "./services/chat.service";
+import { ChatService } from './services/chat.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard] },
-  { path: 'chat/:currentRoom', component: ChatComponent, canActivate:[AuthGuard]},
-  { path: 'chat', component: ChatComponent, canActivate:[AuthGuard] }
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'chat/:currentRoom', component: ChatComponent, canActivate: [AuthGuard]},
+  { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 import { Chatroom } from './chatroom';
@@ -7,9 +7,9 @@ import { Message } from './message';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   username: String = JSON.parse(localStorage.getItem('user')).name;
   name: String;
   message: String;
@@ -33,17 +33,25 @@ export class ChatComponent implements OnInit {
         this.currentRoom = params['currentRoom'];
         this.title = this.currentRoom;
         console.log('current room is: ', this.currentRoom);
+        this.connectToChat();
+        this.changeRoom(this.currentRoom);
+      } else{
+        this.connectToChat();
       }
+      this.getChatrooms();
     });
-    this.connectToChat();
-    this.getChatrooms();
-    this.getOnlineUsers();
-    this.getMessages(this.currentRoom);
+  }
+
+  ngOnDestroy(){
+    this.disconnectFromChat();
   }
 
   connectToChat() {
-    console.log("Connecting user to chat");
     this.chatService.connectToChat(this.username);
+  }
+
+  disconnectFromChat() {
+    this.chatService.disconnectFromChat();
   }
 
   getOnlineUsers() {

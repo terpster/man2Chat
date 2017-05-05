@@ -40,16 +40,11 @@ router.post('/create-chatroom', (req, res, next) => {
     })
 });
 
-router.foo = function(req, res) {
-  const io = req.app.get('socketio');
-  console.log(io);
-};
-
 router.clients = [];
 router.addClient = function (client) {
     router.clients.push(client);
     router.notifyclients();
-    console.log('Connected: %s sockets connected', router.clients.length);
+    // console.log('Connected: %s sockets connected', router.clients.length);
 };
 router.notifyclients = function (currentRoom) {
     Message.find({ chatroom: currentRoom }).exec(function (err, messages) {
@@ -71,7 +66,7 @@ router.notifyClientsAboutRooms = function (client) {
 };
 router.disconnectClient = (client) => {
     router.clients.splice(router.clients.indexOf(client), 1);
-    console.log('Disconnected: %s sockets connected', router.clients.length);
+    // console.log('Disconnected: %s sockets connected', router.clients.length);
 };
 
 module.exports = router;

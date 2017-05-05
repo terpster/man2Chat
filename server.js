@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const config = require('./config/database');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 /** Create HTTP server. **/
 const server = http.createServer(app);
@@ -44,6 +45,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(cors());
 
 require('./config/passport')(passport);
 
@@ -95,26 +98,28 @@ io.sockets.on('connection', function (socket) {
     chat.notifyclients(currentRoom);
   });
 
+
   socket.on('request online users', () => {
     io.of('/').in(currentRoom).clients(function(error, clients){
       if(error) throw error;
 
       let onlineUsers = [];
 
+      // Populate onlineUsers with nickname of connected clients in current room
       for(let i = 0; i < clients.length; i++){
         let nickname = io.sockets.sockets[clients[i]].nickname;
         onlineUsers.push(nickname);
       }
 
-      socket.emit('get online users', onlineUsers);
+      io.in(currentRoom).emit('get online users', onlineUsers);
     });
-
   });
 
   socket.on('change room', function(data){
-    socket.leave(currentRoom, null);
+    socket.leave(currentRoom);
     currentRoom = data;
-    socket.join(data);
+    socket.join(currentRoom);
+
   });
 
   socket.on('disconnect', function(){
