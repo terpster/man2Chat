@@ -4,20 +4,20 @@ import { ChatService } from '../../services/chat.service';
 import { Chatroom } from './chatroom';
 import { Message } from './message';
 
-
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-
+  username: String = JSON.parse(localStorage.getItem('user')).name;
   name: String;
   message: String;
   room: String;
   currentRoom: string = '';
   public chatMessages = [];
   public chatrooms = [];
+  public onlineUsers = [];
   title = "Please enter a room";
 
   constructor(
@@ -37,16 +37,27 @@ export class ChatComponent implements OnInit {
     });
     this.connectToChat();
     this.getChatrooms();
+    this.getOnlineUsers();
     this.getMessages(this.currentRoom);
   }
 
-  connectToChat(){
-    this.chatService.connectToChat();
+  connectToChat() {
+    console.log("Connecting user to chat");
+    this.chatService.connectToChat(this.username);
+  }
+
+  getOnlineUsers() {
+    this.chatService.getOnlineUsers()
+      .subscribe(
+        onlineUsers => {
+          this.onlineUsers = onlineUsers;
+        }
+      );
   }
 
   sendMsg() {
     const message: Message = {
-      name: JSON.parse(localStorage.getItem('user')).name,
+      name: this.username,
       message: this.message,
       chatroom: this.currentRoom
     };
@@ -88,6 +99,7 @@ export class ChatComponent implements OnInit {
     this.chatService.changeRoom(this.currentRoom);
     this.getChatrooms();
     this.getMessages(this.currentRoom);
+    this.getOnlineUsers();
     this.title = this.currentRoom;
   }
 

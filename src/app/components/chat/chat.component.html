@@ -1,6 +1,13 @@
 <div class="container">
   <div class="col-md-2">
     <h4>Online Users</h4>
+
+    <ul class="online-users">
+      <li *ngFor="let onlineUser of onlineUsers">
+        {{onlineUser}}
+      </li>
+    </ul>
+
   </div>
   <div class="col-md-8">
     <h4>{{title}}</h4>

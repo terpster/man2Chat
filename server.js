@@ -80,25 +80,37 @@ app.use(function(err, req, res, next) {
 server.listen(port);
 server.on('error', onError);
 io.sockets.on('connection', function (socket) {
-  chat.addClient(socket);
 
-  let currentRoom = '';
-
-  socket.on('connect to chat', () => {
+  socket.on('connect to chat', (nickname) => {
+    socket.nickname = nickname;
+    chat.addClient(socket);
     chat.notifyClientsAboutRooms();
   });
+
+  let currentRoom = '';
 
   socket.on('send current room', (data) =>{
     currentRoom = data;
     // console.log("Current room on the server is: " + data);
     chat.notifyclients(currentRoom);
+  });
+
+  socket.on('request online users', () => {
     io.of('/').in(currentRoom).clients(function(error, clients){
-        if(error) throw error;
-        console.log(clients);
+      if(error) throw error;
+
+      let onlineUsers = [];
+
+      for(let i = 0; i < clients.length; i++){
+        let nickname = io.sockets.sockets[clients[i]].nickname;
+        onlineUsers.push(nickname);
+      }
+
+      socket.emit('get online users', onlineUsers);
     });
 
   });
-  
+
   socket.on('change room', function(data){
     socket.leave(currentRoom, null);
     currentRoom = data;

@@ -23,9 +23,22 @@ export class ChatService {
 
   getMessages(room): Observable<Message[]>{
     const observable = new Observable(observer => {
-      console.log('Socket: ChatService - getMessages()', this.url);
       this.socket.emit('send current room', room);
       this.socket.on('refresh messages', (data) => {
+        observer.next(data);
+      });
+
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
+
+  getOnlineUsers(): Observable<String[]>{
+    const observable = new Observable(observer => {
+      this.socket.emit('request online users');
+      this.socket.on('get online users', (data) => {
         observer.next(data);
       });
 
@@ -43,13 +56,12 @@ export class ChatService {
       .map(res => res.json());
   }
 
-  connectToChat(){
-    this.socket.emit('connect to chat');
+  connectToChat(username){
+    this.socket.emit('connect to chat', username);
   }
 
   getChatrooms(): Observable<Chatroom[]>{
     const chatroomsList = new Observable(observer => {
-      console.log('Socket: ChatService - getChatrooms()', this.url);
       this.socket.on('refresh chatrooms', (data) => {
         observer.next(data);
       });
