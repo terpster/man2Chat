@@ -26,6 +26,7 @@ mongoose.connection.on('error', (err) =>{
   console.log("Database error: " + err);
 });
 
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
@@ -38,7 +39,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 require('./config/passport')(passport);
 
 // Anything that accesses the /users will be using the /routes/users file
@@ -46,6 +46,7 @@ const users = require('./server/routes/users');
 const chat = require('./server/routes/chat');
 app.use('/users', users);
 app.use('/chat', chat);
+
 //hello
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -76,6 +77,9 @@ app.set('port', port);
 /** Create HTTP server. **/
 const server = http.createServer(app);
 const io = require('socket.io').listen(server);
+
+module.exports = io;
+
 
 /** Listen on provided port, on all network interfaces. **/
 server.listen(port);
@@ -116,6 +120,7 @@ io.sockets.on('connection', function (socket) {
   });
 });
 server.on('listening', onListening);
+
 
 
 /**
@@ -178,3 +183,6 @@ function onListening() {
   debug('Listening on ' + bind);
   console.log('Listening on ' + bind);
 }
+
+
+

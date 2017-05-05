@@ -3,6 +3,8 @@ const router = express.Router();
 const config = require('../../config/database');
 const Message = require('../../models/message');
 const Chatroom = require('../../models/chatroom');
+const io = require('../../server');
+
 
 // Send message
 router.post('/send-message', (req, res, next) => {
@@ -38,6 +40,10 @@ router.post('/create-chatroom', (req, res, next) => {
     })
 });
 
+router.foo = function(req, res) {
+  const io = req.app.get('socketio');
+  console.log(io);
+};
 
 router.clients = [];
 router.addClient = function (client) {
@@ -49,19 +55,16 @@ router.notifyclients = function (currentRoom) {
     Message.find({ chatroom: currentRoom }).exec(function (err, messages) {
         if (err)
             return console.error(err);
-        // let toNotify = client?new Array(client):router.clients;
 
-      router.clients.forEach(function(socket){
-          socket.emit('refresh messages', messages);
-        })
+        // io.in(currentRoom).emit('refresh messages', messages);
     });
 };
 router.notifyClientsAboutRooms = function (client) {
     Chatroom.find({}).exec(function (err, rooms) {
         if (err)
             return console.error(err);
-        let toNotify = client?new Array(client):router.clients;
-        toNotify.forEach(function(socket){
+
+        router.clients.forEach(function(socket){
             socket.emit('refresh chatrooms', rooms);
         })
     });
