@@ -92,9 +92,6 @@ export class ChatComponent implements OnInit {
   }
 
   changeRoom(chatroom) {
-    this.activatedRoute.params.subscribe((params: Params) => {
-      this.currentRoom = params['currentRoom'];
-    });
     this.currentRoom = chatroom;
     this.chatService.changeRoom(this.currentRoom);
     this.getChatrooms();
