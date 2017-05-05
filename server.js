@@ -92,18 +92,13 @@ io.sockets.on('connection', function (socket) {
     currentRoom = data;
     // console.log("Current room on the server is: " + data);
     chat.notifyclients(currentRoom);
+    io.of('/').in(currentRoom).clients(function(error, clients){
+        if(error) throw error;
+        console.log(clients);
+    });
+
   });
-
-/*  io.sockets.in(currentRoom).emit('next', "io.sockets.in");
-
-  socket.join("Room room", () => {
-    io.to("Room room", "A new user hsa joined the room");
-  });
-
-  socket.on("A new user hsa joined the room", () => {
-    console.log("Hi");
-  });*/
-
+  
   socket.on('change room', function(data){
     socket.leave(currentRoom, null);
     currentRoom = data;
