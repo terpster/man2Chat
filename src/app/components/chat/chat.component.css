@@ -21,7 +21,7 @@
     bottom: 30px;
     width: 100%; }
     .chat .frame .form-group input {
-      width: calc(100% - 30px);
+      width: calc(100% - 50px);
       box-sizing: border-box; }
 
 .right-sidebar {

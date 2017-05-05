@@ -33,12 +33,12 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.currentRoom = params['currentRoom'];
         this.title = this.currentRoom;
         console.log('current room is: ', this.currentRoom);
+        this.connectToChat();
+        this.changeRoom(this.currentRoom);
       }
     });
-    this.connectToChat();
+
     this.getChatrooms();
-    this.getOnlineUsers();
-    this.getMessages(this.currentRoom);
   }
 
   ngOnDestroy(){
