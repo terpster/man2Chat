@@ -88,7 +88,7 @@ io.sockets.on('connection', function (socket) {
   chat.addClient(socket);
 
   let currentRoom = '';
-
+//hehe
   socket.on('connect to chat', () => {
     chat.notifyClientsAboutRooms();
   });
