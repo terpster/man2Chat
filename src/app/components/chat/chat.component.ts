@@ -35,6 +35,9 @@ export class ChatComponent implements OnInit, OnDestroy {
         console.log('current room is: ', this.currentRoom);
         this.connectToChat();
         this.changeRoom(this.currentRoom);
+      } else{
+        this.connectToChat();
+        this.getChatrooms();
       }
     });
 
