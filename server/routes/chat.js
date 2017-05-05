@@ -17,7 +17,7 @@ router.post('/send-message', (req, res, next) => {
             res.json({success: false, msg: 'Failed to save message'});
         } else{
             res.json({success: true, msg: 'Message saved'});
-            router.notifyclients(null, req.body.chatroom);
+            router.notifyclients(newMsg.chatroom);
         }
     })
 });
@@ -38,19 +38,21 @@ router.post('/create-chatroom', (req, res, next) => {
     })
 });
 
+
 router.clients = [];
 router.addClient = function (client) {
     router.clients.push(client);
-    router.notifyclients(client);
+    router.notifyclients();
     console.log('Connected: %s sockets connected', router.clients.length);
 };
-router.notifyclients = function (client, currentRoom) {
+router.notifyclients = function (currentRoom) {
     Message.find({ chatroom: currentRoom }).exec(function (err, messages) {
         if (err)
             return console.error(err);
-        let toNotify = client?new Array(client):router.clients;
-        toNotify.forEach(function(socket){
-            socket.emit('refresh messages', messages);
+        // let toNotify = client?new Array(client):router.clients;
+
+      router.clients.forEach(function(socket){
+          socket.emit('refresh messages', messages);
         })
     });
 };

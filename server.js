@@ -6,7 +6,6 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const socketio = require('socket.io');
 const passport = require('passport');
 const config = require('./config/database');
 const mongoose = require('mongoose');
@@ -50,7 +49,7 @@ app.use('/chat', chat);
 //hello
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -71,36 +70,45 @@ app.use(function(err, req, res, next) {
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /** Create HTTP server. **/
-var server = http.createServer(app);
-var io = socketio(server);
-
+const server = http.createServer(app);
+const io = require('socket.io').listen(server);
 
 /** Listen on provided port, on all network interfaces. **/
 server.listen(port);
 server.on('error', onError);
-io.on('connection', function (socket) {
-
-  console.log("New client connected");
+io.sockets.on('connection', function (socket) {
   chat.addClient(socket);
+
+  let currentRoom = '';
 
   socket.on('connect to chat', () => {
     chat.notifyClientsAboutRooms();
-});
+  });
 
-
-  let currentRoom = "Room room";
   socket.on('send current room', (data) =>{
     currentRoom = data;
-  console.log("Current room on the server is: " + data);
-  chat.notifyclients(null, currentRoom);
-});
+    // console.log("Current room on the server is: " + data);
+    chat.notifyclients(currentRoom);
+  });
+
+/*  io.sockets.in(currentRoom).emit('next', "io.sockets.in");
+
+  socket.join("Room room", () => {
+    io.to("Room room", "A new user hsa joined the room");
+  });
+
+  socket.on("A new user hsa joined the room", () => {
+    console.log("Hi");
+  });*/
 
   socket.on('change room', function(data){
+    socket.leave(currentRoom, null);
     currentRoom = data;
+    socket.join(data);
   });
 
   socket.on('disconnect', function(){
@@ -108,6 +116,7 @@ io.on('connection', function (socket) {
   });
 });
 server.on('listening', onListening);
+
 
 /**
  * Normalize a port into a number, string, or false.
