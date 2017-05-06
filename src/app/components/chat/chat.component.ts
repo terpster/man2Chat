@@ -14,11 +14,11 @@ export class ChatComponent implements OnInit {
   name: String;
   message: String;
   room: String;
-  currentRoom: string = '';
+  currentRoom = '';
   public chatMessages = [];
   public chatrooms = [];
   public onlineUsers = [];
-  title = "Please enter a room";
+  title = 'Please enter a room';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -29,7 +29,7 @@ export class ChatComponent implements OnInit {
   ngOnInit() {
     // Set the current room
     this.activatedRoute.params.subscribe((params: Params) => {
-      if(params['currentRoom']){
+      if (params['currentRoom']) {
         this.currentRoom = params['currentRoom'];
         this.title = this.currentRoom;
         console.log('current room is: ', this.currentRoom);
@@ -42,7 +42,7 @@ export class ChatComponent implements OnInit {
   }
 
   connectToChat() {
-    console.log("Connecting user to chat");
+    console.log('Connecting user to chat');
     this.chatService.connectToChat(this.username);
   }
 
@@ -100,8 +100,8 @@ export class ChatComponent implements OnInit {
     this.title = this.currentRoom;
   }
 
-  clientIsInRoom(){
-    if(this.currentRoom){
+  clientIsInRoom() {
+    if (this.currentRoom) {
       return true;
     }
   }
