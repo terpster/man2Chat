@@ -59,7 +59,7 @@ router.notifyclients = function (currentRoom) {
         io.in(currentRoom).emit('refresh messages', messages);
     });
 };
-router.notifyClientsAboutRooms = function (client) {
+router.notifyClientsAboutRooms = function () {
     Chatroom.find({}).exec(function (err, rooms) {
         if (err)
             return console.error(err);

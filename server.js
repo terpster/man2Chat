@@ -117,7 +117,13 @@ io.sockets.on('connection', function (socket) {
     socket.join(data);
   });
 
+  socket.on('disconnect user', function(){
+    // console.log("disconnected");
+    chat.disconnectClient(socket);
+  });
+
   socket.on('disconnect', function(){
+    console.log("disconnected");
     chat.disconnectClient(socket)
   });
 });

@@ -37,8 +37,8 @@ export class ChatComponent implements OnInit {
     });
     this.connectToChat();
     this.getChatrooms();
-    this.getOnlineUsers();
     this.getMessages(this.currentRoom);
+    this.getOnlineUsers();
   }
 
   connectToChat() {

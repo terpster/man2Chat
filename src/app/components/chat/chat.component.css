@@ -1,10 +1,32 @@
-.frame {
-  position: relative;
-  height: 500px; }
+.left-sidebar {
+  height: 100vh;
+  background: bisque;
+  padding: 25px; }
 
-#messageForm {
-  position: absolute;
-  bottom: 30px;
-  width: 200px; }
+.chat {
+  position: relative;
+  height: calc(100vh - 64px);
+  padding: 25px; }
+  .chat h3 {
+    border-bottom: 1px solid darkgray;
+    margin-top: 0px; }
+  .chat ul {
+    padding-left: 0px;
+    height: calc(100vh - 64px - 132px - 30px - 80px);
+    overflow: auto; }
+    .chat ul li {
+      list-style-type: none; }
+  .chat .frame {
+    position: absolute;
+    bottom: 30px;
+    width: 100%; }
+    .chat .frame .form-group input {
+      width: calc(100% - 50px);
+      box-sizing: border-box; }
+
+.right-sidebar {
+  height: 100vh;
+  background: bisque;
+  padding: 25px; }
 
 /*# sourceMappingURL=chat.component.css.map */

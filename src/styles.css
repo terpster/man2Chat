@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  overflow: hidden;
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px; }
+
+.flash-message {
+  margin-bottom: 0px; }
+
+/*# sourceMappingURL=styles.css.map */
