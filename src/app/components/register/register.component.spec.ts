@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterComponent } from './register.component';
+import {FormsModule} from '@angular/forms';
+import {ValidateService} from '../../services/validate.service';
+import {AuthService} from '../../services/auth.service';
+import {HttpModule} from '@angular/http';
+import {RouterTestingModule} from '@angular/router/testing';
+import {FlashMessagesService} from 'angular2-flash-messages';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -8,9 +14,20 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ]
+      declarations: [ RegisterComponent ],
+      imports: [
+        FormsModule,
+        HttpModule,
+        RouterTestingModule.withRoutes([])
+      ],
+      providers: [
+        ValidateService,
+        AuthService,
+        FlashMessagesService
+      ],
+
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
