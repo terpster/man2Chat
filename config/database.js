@@ -1,4 +1,4 @@
 module.exports = {
-    database: 'mongodb://localhost:27017/meanauth',
+    database: 'mongodb://terp:terp123@ds133991.mlab.com:33991/terpio',
     secret: 'yoursecret'
 };
