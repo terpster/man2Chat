@@ -17,7 +17,7 @@ export class ChatService {
   sendMessage(message){
     const headers = new Headers();
     headers.append('Content-type', 'application/json');
-    return this.http.post('http://localhost:3000/chat/send-message', message, {headers: headers})
+    return this.http.post('/chat/send-message', message, {headers: headers})
       .map(res => res.json());
   }
 
@@ -52,7 +52,7 @@ export class ChatService {
   createRoom(room){
     const headers = new Headers();
     headers.append('Content-type', 'application/json');
-    return this.http.post('http://localhost:3000/chat/create-chatroom', room, {headers: headers})
+    return this.http.post('/chat/create-chatroom', room, {headers: headers})
       .map(res => res.json());
   }
 
